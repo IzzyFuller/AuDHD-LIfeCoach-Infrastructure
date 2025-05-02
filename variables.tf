@@ -42,3 +42,24 @@ variable "rabbitmq_exchanges" {
   }))
   default = []
 }
+
+variable "rabbitmq_queues" {
+  description = "List of RabbitMQ queues to create"
+  type = list(object({
+    name        = string
+    durable     = bool
+    auto_delete = bool
+  }))
+  default = []
+}
+
+variable "rabbitmq_bindings" {
+  description = "List of RabbitMQ bindings between exchanges and queues"
+  type = list(object({
+    source           = string
+    destination      = string
+    destination_type = string
+    routing_key      = string
+  }))
+  default = []
+}

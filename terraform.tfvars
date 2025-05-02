@@ -11,15 +11,34 @@ rabbitmq_vhost    = "/"
 # RabbitMQ exchanges configuration
 rabbitmq_exchanges = [
   {
-    name        = "audhd.events"
+    name        = "audhd.input"    # Exchange for other apps to publish to
     type        = "topic"
     durable     = true
     auto_delete = false
   },
   {
-    name        = "audhd.commands"
-    type        = "direct"
+    name        = "audhd.output"   # Exchange for AuDHD-LifeCoach to publish to
+    type        = "topic"
     durable     = true
     auto_delete = false
+  }
+]
+
+# RabbitMQ queues configuration
+rabbitmq_queues = [
+  {
+    name        = "audhd.message_queue"  # Queue that AuDHD-LifeCoach reads from
+    durable     = true
+    auto_delete = false
+  }
+]
+
+# RabbitMQ bindings configuration
+rabbitmq_bindings = [
+  {
+    source           = "audhd.input"
+    destination      = "audhd.message_queue"
+    destination_type = "queue"
+    routing_key      = "#"  # Subscribe to all messages on this exchange
   }
 ]
