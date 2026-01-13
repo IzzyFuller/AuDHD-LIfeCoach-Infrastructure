@@ -27,7 +27,17 @@ rabbitmq_exchanges = [
 # RabbitMQ queues configuration
 rabbitmq_queues = [
   {
-    name        = "audhd.message_queue"  # Queue that AuDHD-LifeCoach reads from
+    name        = "core.messages"  # Core component reads incoming conversations
+    durable     = true
+    auto_delete = false
+  },
+  {
+    name        = "persistence.audhd_input"  # PersistenceFurthers audits incoming conversations
+    durable     = true
+    auto_delete = false
+  },
+  {
+    name        = "persistence.audhd_output"  # PersistenceFurthers audits outgoing actions
     durable     = true
     auto_delete = false
   }
@@ -37,8 +47,20 @@ rabbitmq_queues = [
 rabbitmq_bindings = [
   {
     source           = "audhd.input"
-    destination      = "audhd.message_queue"
+    destination      = "core.messages"
     destination_type = "queue"
-    routing_key      = "#"  # Subscribe to all messages on this exchange
+    routing_key      = "#"  # Core subscribes to all input messages
+  },
+  {
+    source           = "audhd.input"
+    destination      = "persistence.audhd_input"
+    destination_type = "queue"
+    routing_key      = "#"  # PersistenceFurthers audits all input messages
+  },
+  {
+    source           = "audhd.output"
+    destination      = "persistence.audhd_output"
+    destination_type = "queue"
+    routing_key      = "#"  # PersistenceFurthers audits all output messages
   }
 ]

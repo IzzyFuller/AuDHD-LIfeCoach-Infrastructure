@@ -38,10 +38,53 @@ func TestRabbitMQConfiguration(t *testing.T) {
 			"rabbitmq_vhost":    "/",
 			"rabbitmq_exchanges": []map[string]interface{}{
 				{
-					"name":        "test.events",
+					"name":        "audhd.input",
 					"type":        "topic",
 					"durable":     true,
 					"auto_delete": false,
+				},
+				{
+					"name":        "audhd.output",
+					"type":        "topic",
+					"durable":     true,
+					"auto_delete": false,
+				},
+			},
+			"rabbitmq_queues": []map[string]interface{}{
+				{
+					"name":        "core.messages",
+					"durable":     true,
+					"auto_delete": false,
+				},
+				{
+					"name":        "persistence.audhd_input",
+					"durable":     true,
+					"auto_delete": false,
+				},
+				{
+					"name":        "persistence.audhd_output",
+					"durable":     true,
+					"auto_delete": false,
+				},
+			},
+			"rabbitmq_bindings": []map[string]interface{}{
+				{
+					"source":           "audhd.input",
+					"destination":      "core.messages",
+					"destination_type": "queue",
+					"routing_key":      "#",
+				},
+				{
+					"source":           "audhd.input",
+					"destination":      "persistence.audhd_input",
+					"destination_type": "queue",
+					"routing_key":      "#",
+				},
+				{
+					"source":           "audhd.output",
+					"destination":      "persistence.audhd_output",
+					"destination_type": "queue",
+					"routing_key":      "#",
 				},
 			},
 		},

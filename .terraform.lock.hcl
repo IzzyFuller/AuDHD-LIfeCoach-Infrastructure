@@ -5,6 +5,7 @@ provider "registry.terraform.io/cyrilgdn/rabbitmq" {
   version     = "1.8.0"
   constraints = "~> 1.8.0"
   hashes = [
+    "h1:PZrZsZvFQJd3hwfv7j/drVvQEL42n6yxV9zhXWjfDwA=",
     "h1:VtiJ6oo90ucgI/IOYUKDt+OuxJzFh8e+gj8FmRdYdeY=",
     "zh:0a8bd3de84ccd39b55057403fd9d1adbb024caccfcffb879ac894858ba9f06a0",
     "zh:16f80a580d481970bbedf86e8e5da07078f0d7f1a8a86392e8ef6e1b9f4ca1d9",
